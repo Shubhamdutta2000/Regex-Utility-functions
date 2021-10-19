@@ -18,4 +18,7 @@ document.getElementById("file").addEventListener("change", function () {
         alert("file size too large")
         this.value = null;
     }
-})
+});
+
+let test = validateFileExtension("test.txt", "txt,pdf,doc,json");
+console.log(test)

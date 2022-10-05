@@ -1,4 +1,4 @@
-function checkvalidno(phoneNo) {
+function checkValidno(phoneNo) {
     const phoneRE = /^\(\d\d\d\) \d\d\d-\d\d\d\d$/; 
     if (phoneNo.match(phoneRE)) {
       return true; 

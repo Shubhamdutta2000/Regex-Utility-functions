@@ -11,15 +11,18 @@ def string_to_base64(input_string):
     # Define the Base64 character mapping
     base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
+    # Filter out non-alphanumeric characters and whitespace
+    filtered_string = ''.join(char for char in input_string if char.isalnum() or char.isspace())
+
     # Initialize variables
     result = []
     current_bits = 0
     num_bits = 0
 
-    # Convert the input string to bytes
-    bytes_data = input_string.encode('utf-8')
+    # Convert the filtered input string to bytes
+    bytes_data = filtered_string.encode('utf-8')
 
-    # Iterate through each byte in the input data
+    # Iterate through each byte in the filtered input data
     for byte in bytes_data:
         # Shift the current_bits left by 8 bits and add the new byte
         current_bits = (current_bits << 8) | byte
@@ -50,6 +53,6 @@ def string_to_base64(input_string):
 
 # Example usage:
 if __name__ == "__main__":
-    input_string = "Hello, this is a string to be encoded in Base64."
+    input_string = "Hello, this is a string to be encoded in Base64. #$%^"
     base64_result = string_to_base64(input_string)
     print("Base64 Encoded String:", base64_result)

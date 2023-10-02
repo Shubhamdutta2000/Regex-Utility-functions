@@ -1,0 +1,58 @@
+def string_to_base64(input_string):
+    """
+    Convert a string to its Base64 representation without using external packages.
+
+    Args:
+        input_string (str): The input string to be converted.
+
+    Returns:
+        str: The Base64-encoded representation of the input string.
+    """
+    # Define the Base64 character mapping
+    base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+
+    # Filter out non-alphanumeric characters and whitespace
+    filtered_string = ''.join(char for char in input_string if char.isalnum() or char.isspace())
+
+    # Initialize variables
+    result = []
+    current_bits = 0
+    num_bits = 0
+
+    # Convert the filtered input string to bytes
+    bytes_data = filtered_string.encode('utf-8')
+
+    # Iterate through each byte in the filtered input data
+    for byte in bytes_data:
+        # Shift the current_bits left by 8 bits and add the new byte
+        current_bits = (current_bits << 8) | byte
+        num_bits += 8
+
+        # While we have at least 6 bits, extract and encode them
+        while num_bits >= 6:
+            num_bits -= 6
+            # Extract the top 6 bits
+            index = (current_bits >> num_bits) & 0x3F
+            result.append(base64_chars[index])
+
+    # Handle any remaining bits (less than 6 bits)
+    if num_bits > 0:
+        # Pad with zeros to make a multiple of 6 bits
+        current_bits <<= 6 - num_bits
+        index = current_bits & 0x3F
+        result.append(base64_chars[index])
+
+    # Add padding '=' characters if necessary
+    while len(result) % 4 != 0:
+        result.append('=')
+
+    # Join the Base64 characters to form the final encoded string
+    base64_data = ''.join(result)
+
+    return base64_data
+
+# Example usage:
+if __name__ == "__main__":
+    input_string = "Hello, this is a string to be encoded in Base64. #$%^"
+    base64_result = string_to_base64(input_string)
+    print("Base64 Encoded String:", base64_result)
